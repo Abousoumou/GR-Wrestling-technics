@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympic Wrestling Techniques</title>
+    <style>
+        :root {
+            /* Dark Theme Colors */
+            --bg-color: #0f172a;       /* Slate 900 */
+            --card-bg: #1e293b;        /* Slate 800 */
+            --card-hover: #263449;     /* Lighter Slate */
+            --text-primary: #f8fafc;   /* Slate 50 */
+            --text-secondary: #94a3b8; /* Slate 400 */
+            --accent-blue: #3b82f6;    /* Blue 500 */
+            --accent-red: #ef4444;     /* Red 500 */
+            --accent-green: #10b981;   /* Green 500 */
+            --border-color: #334155;   /* Slate 700 */
+            
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* RTL Support for Arabic */
+        body[dir="rtl"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        body[dir="rtl"] .nav-links {
+            flex-direction: row-reverse;
+        }
+        body[dir="rtl"] .card-footer {
+            flex-direction: row-reverse;
+        }
+        body[dir="rtl"] .card-content {
+            text-align: right;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-blue);
+        }
+
+        .lang-selector {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex-grow: 1; /* Pushes footer to the bottom */
+            width: 100%;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Intro Page Styling */
+        .intro-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        /* Increased logo size significantly (325px -> 450px) */
+        .intro-logo {
+            max-width: 450px;
+            height: auto;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .intro-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            text-align: justify;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        body[dir="rtl"] .intro-text {
+            text-align: right;
+        }
+
+        /* Page Headers */
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-section {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+            text-transform: capitalize;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            background-color: var(--card-hover);
+        }
+
+        /* Large Picture Size, Small Text */
+        .card-image {
+            width: 100%;
+            height: 280px; 
+            background-color: #ffffff; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+
+        .card-image .img-fallback {
+            display: none; 
+            position: absolute;
+            color: #334155;
+            font-size: 0.8rem;
+            font-family: monospace;
+            background: rgba(0,0,0,0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .card-content {
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 0.95rem; 
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+
+        .card-desc {
+            font-size: 0.8rem; 
+            color: var(--text-secondary);
+            flex-grow: 1;
+            white-space: pre-line; 
+        }
+
+        /* Card Footer (Voting) */
+        .card-footer {
+            padding: 0.8rem 1rem;
+            background-color: rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vote-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .vote-btn:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .vote-btn.like-btn.active {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .vote-btn.dislike-btn.active {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .vote-count {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background-color: var(--card-bg);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            /* Increased mobile logo size to match the larger desktop scaling */
+            .intro-logo {
+                max-width: 320px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" class="nav-brand" onclick="switchView('intro-view')">🤼 Wrestling Guide</a>
+        <div class="nav-links">
+            <button class="nav-link active" onclick="switchView('intro-view')" id="nav-intro">Home</button>
+            <button class="nav-link" onclick="switchView('greco-view')" id="nav-greco">Greco-Roman</button>
+            <button class="nav-link" onclick="switchView('freestyle-view')" id="nav-freestyle">Free Style</button>
+            
+            <select class="lang-selector" id="lang-selector" onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="ar">العربية</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        
+        <!-- Intro View -->
+        <section id="intro-view" class="view active">
+            <div class="intro-container">
+                <img src="sigle.png" alt="Application Logo" class="intro-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="img-fallback" style="display:none; color:red; margin-bottom: 1rem;">[sigle.png not found]</span>
+                
+                <h1 class="page-title" id="intro-title">Welcome to the Wrestling Techniques Guide</h1>
+                <div class="intro-text" id="intro-text">
+                    <!-- Text will be injected by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Greco-Roman View -->
+        <section id="greco-view" class="view">
+            <h1 class="page-title" id="greco-title">Olympic Wrestling Style</h1>
+            <p class="page-subtitle" id="greco-subtitle">Greco-Roman techniques, controls, and takedowns.</p>
+            <div id="greco-content"></div>
+        </section>
+
+        <!-- Free Style View -->
+        <section id="freestyle-view" class="view">
+            <h1 class="page-title" id="freestyle-title">Free Style Olympic Wrestling</h1>
+            <p class="page-subtitle" id="freestyle-subtitle">Free style techniques, controls, and takedowns.</p>
+            <div id="freestyle-content"></div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><span id="footer-contact-label">Contact us:</span> <a href="mailto:bchini_1969@hotmail.com">bchini_1969@hotmail.com</a></p>
+        <p id="footer-rights">© 2024 Wrestling Guide. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // --- 1. TRANSLATIONS & UI DATA ---
+        const translations = {
+            en: {
+                navHome: "Home",
+                navGreco: "Greco-Roman",
+                navFree: "Free Style",
+                introTitle: "Welcome to the Wrestling Techniques Guide",
+                introText: "Wrestling is one of the oldest and most fundamental sports in human history. This application serves as a comprehensive visual guide to Olympic wrestling, breaking down the complex movements into clear, manageable techniques. Whether you are a coach, an athlete, or a fan, understanding the mechanics of wrestling is key to appreciating the sport. The application covers two main Olympic disciplines: Greco-Roman and Free Style. Greco-Roman wrestling strictly forbids holds below the waist, emphasizing upper body strength, throws, and strategic grappling. Free Style wrestling allows competitors to use their legs both offensively and defensively, leading to a faster pace and a wider variety of takedowns. Each card in this application represents a specific technique, control, or takedown. We encourage you to explore the different styles, study the visual diagrams, and utilize the like and dislike buttons to mark your favorite moves or the ones you find most effective. This interactive approach helps users quickly identify key techniques and build a personal library of wrestling knowledge.",
+                grecoTitle: "Olympic Wrestling Style",
+                grecoSubtitle: "Greco-Roman techniques, controls, and takedowns.",
+                freeTitle: "Free Style Olympic Wrestling",
+                freeSubtitle: "Free style techniques, controls, and takedowns.",
+                catMain: "Main Controls",
+                catUp: "Techniques Up",
+                catDown: "Techniques Down",
+                footerContact: "Contact us:",
+                footerRights: "© 2024 Wrestling Guide. All rights reserved."
+            },
+            fr: {
+                navHome: "Accueil",
+                navGreco: "Gréco-Romaine",
+                navFree: "Libre",
+                introTitle: "Bienvenue dans le Guide des Techniques de Lutte",
+                introText: "La lutte est l'un des sports les plus anciens et les plus fondamentaux de l'histoire de l'humanité. Cette application sert de guide visuel complet pour la lutte olympique, décomposant les mouvements complexes en techniques claires et gérables. Que vous soyez entraîneur, athlète ou passionné, comprendre la mécanique de la lutte est essentiel pour apprécier ce sport. L'application couvre deux disciplines olympiques principales : la lutte gréco-romaine et la lutte libre. La lutte gréco-romaine interdit strictement les prises en dessous de la taille, mettant l'accent sur la force du haut du corps, les projections et le grappin stratégique. La lutte libre permet aux concurrents d'utiliser leurs jambes à la fois en attaque et en défense, ce qui donne un rythme plus rapide et une plus grande variété de mises au sol. Chaque carte de cette application représente une technique, un contrôle ou une mise au sol spécifique. Nous vous encourageons à explorer les différents styles, à étudier les diagrammes visuels et à utiliser les boutons J'aime et Je n'aime pas pour marquer vos mouvements préférés ou ceux que vous trouvez les plus efficaces. Cette approche interactive aide les utilisateurs à identifier rapidement les techniques clés et à constituer une bibliothèque personnelle de connaissances en lutte.",
+                grecoTitle: "Style de Lutte Olympique",
+                grecoSubtitle: "Techniques, contrôles et mises au sol gréco-romaines.",
+                freeTitle: "Lutte Olympique Libre",
+                freeSubtitle: "Techniques, contrôles et mises au sol de lutte libre.",
+                catMain: "Contrôles Principaux",
+                catUp: "Techniques Debout",
+                catDown: "Techniques au Sol",
+                footerContact: "Contactez-nous :",
+                footerRights: "© 2024 Guide de Lutte. Tous droits réservés."
+            },
+            ar: {
+                navHome: "الرئيسية",
+                navGreco: "الرومانية",
+                navFree: "الحرة",
+                introTitle: "مرحبًا بكم في دليل تقنيات المصارعة",
+                introText: "تعتبر المصارعة من أقدم وأهم الرياضات في تاريخ البشرية. يعمل هذا التطبيق كدليل مرئي شامل للمصارعة الأولمبية، حيث يقسم الحركات المعقدة إلى تقنيات واضحة وقابلة للإدارة. سواء كنت مدربًا أو رياضيًا أو معجبًا، فإن فهم ميكانيكا المصارعة هو المفتاح لتقدير هذه الرياضة. يغطي التطبيق تخصصين أولمبيين رئيسيين: المصارعة الرومانية والمصارعة الحرة. تحظر المصارعة الرومانية تمامًا المسك تحت الخصر، مع التركيز على قوة الجزء العلوي من الجسم والرميات والصراع الاستراتيجي. تسمح المصارعة الحرة للمنافسين باستخدام أرجلهم بشكل هجومي ودفاعي، مما يؤدي إلى وتيرة أسرع ومجموعة متنوعة من عمليات الإسقاط. تمثل كل بطاقة في هذا التطبيق تقنية أو تحكمًا أو إسقاطًا محددًا. نحن نشجعك على استكشاف الأنماط المختلفة، ودراسة الرسوم البيانية المرئية، واستخدام أزرار الإعجاب وعدم الإعجاب لوضع علامة على حركاتك المفضلة أو تلك التي تجدها أكثر فعالية. يساعد هذا النهج التفاعلي المستخدمين على تحديد التقنيات الرئيسية بسرعة وبناء مكتبة شخصية لمعرفة المصارعة.",
+                grecoTitle: "أسلوب المصارعة الأولمبية",
+                grecoSubtitle: "تقنيات وتحكمات وعمليات إسقاط المصارعة الرومانية.",
+                freeTitle: "المصارعة الأولمبية الحرة",
+                freeSubtitle: "تقنيات وتحكمات وعمليات إسقاط المصارعة الحرة.",
+                catMain: "التحكمات الرئيسية",
+                catUp: "التقنيات العلوية",
+                catDown: "التقنيات السفلية",
+                footerContact: "اتصل بنا:",
+                footerRights: "© 2024 دليل المصارعة. جميع الحقوق محفوظة."
+            }
+        };
+
+        // --- 2. DATA ---
+        const wrestlingData = {
+          "Greco-Roman Style": {
+            "main_controls": [
+              { "name": "bras dessus-dessous fermé", "picture": "control_1.png", "description": "Mutuel controles bras dessus-dessous Fermé" },
+              { "name": "bras interieur", "picture": "b-interior.png", "description": "it's bras interieur control here" },
+              { "name": "bras exterior", "picture": "1-dessous.png", "description": "it'sa bras exterior controlhere over" },
+              { "name": "bras dessus-dessous fermé", "picture": "control_1.png", "description": "Mutuel controles bras dessus-dessous Fermé" },
+              { "name": "bras interieur", "picture": "b-interior.png", "description": "it's bras interieur control here" },
+              { "name": "bras exterior", "picture": "control1.png", "description": "it'sa bras exterior controlhere over" },
+              { "name": "Controle du Bras par l'exterieur111", "picture": "b_exterieur.png", "description": "Controle mutuel en bras dessus-dessous Ouvert" },
+              { "name": "bras dessus-dessous Ouvert", "picture": "1-dessus-de.png", "description": "Controle mutuel en bras dessus-dessous Ouvert" }
+            ],
+            "technique_up": [
+              { "name": "Control Du bras - tirer", "description": "Controle de l’adversaire en passant derriere \n lui apres amenee a terre", "picture": "welcome_logo.jpg" },
+              { "name": "Controle Bras Dessus-Dessous", "description": "Controle de l’adversaire en passant derriere", "picture": "a_t_1.png" },
+              { "name": "Controle Bras Dessus-Dessous", "description": "Controle de l’adversaire en passant derriere\n lui en bras a la volee ", "picture": "a_t_2.jpg" },
+              { "name": "Controle du bras par l’interieur", "description": "Controle de l’adversaire en passant derriere\n lui en bras a la volee", "picture": "a_t_3.png" },
+              { "name": "Controle double bras par dessus", "description": "Controle de l’adversaire en passant derriere\n lui en le poussant a cote", "picture": "a_t_4.png" },
+              { "name": "Controle double bras par dessus", "description": "Controle de l’adversaire en passant derriere\n lui en le poussant a cote", "picture": "a_t_5.png" },
+              { "name": "Controle double bras par dessus", "description": "Controle de l’adversaire en passant derriere\n lui en le poussant a cote", "picture": "a_t_01.png" },
+              { "name": "Decalage arriere", "description": "Pousser l’adversaire arriere en attaquant le bras", "picture": "d_a_11.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture aprés \n  tirage de bras", "picture": "d_a_44.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par l’interieur", "picture": "d_a_55.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_a_4.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_a_02.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_a_03.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_l_01.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_l_002.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "d_l_02.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire par dessus l’epaule", "picture": "proj_1.png" },
+              { "name": "Projection Assie", "description": "Projection de l’adversaire passant par\n par dessus son epaule", "picture": "proj_2.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanche_t.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanchee_003.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanchee_004.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanchee_005.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanchee_006.png" },
+              { "name": "Tour de hanche en Tete", "description": "Projection de l’adversaire au tour de hanche en tete", "picture": "hanchee_007.png" },
+              { "name": "Demi-Souplesse en double bras par dessus", "description": "Projection de l’adversaire sur controle de double \n bras par dessus", "picture": "proj_4.png" },
+              { "name": "Tour de hanche en epaule", "description": "Projection de l’adversaire au tour de hanche \n  bras sous l’epaule", "picture": "proj_3.png" },
+              { "name": "Projection en bras-ceinture", "description": "Projection de l’adversaire vers le cote \n a partir du controle bras et ceinture par devant", "picture": "proj_6.png" },
+              { "name": "Projection par dessus la hanche, en bras-ceinture", "description": "Projection de l’adversaire autour  \n  de la hanche a partir du controle bras et ceinture", "picture": "proj_7.png" },
+              { "name": "Projection de cote autour des epaules", "description": "Projection de l’adversaire vers le cote autour des epaules \n a partir du controle bras et ceinture", "picture": "proj_8.png" },
+              { "name": "Projection en bras-desous", "description": "Projection de l’adversaire vers le cote \n a partir du controle des bras par dessus", "picture": "proj_9.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_01.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_02.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_03.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_04.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_05.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "proj_06.png" },
+              { "name": "Projection - Grande Souplesse en pivot", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc en pivotant", "picture": "soup_2.png" },
+              { "name": "Projection - Grande Souplesse", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc par devant", "picture": "soup_1.png" },
+              { "name": "Projection - Grande Souplesse, de cote", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle bras et tronc de cote", "picture": "soup_3.png" },
+              { "name": "Projection - Grande Souplesse", "description": "Projection de l’adversaire vers l’arriere en \n Grande souplesse sur controle des bras par dessous", "picture": "soup_4.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_5.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_01.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_111.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_112.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_113.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_114.png" },
+              { "name": "Projection", "description": "Projection de l’adversaire vers l’arriere en \n souplesse sur controle des bras-tete par devant", "picture": "soup_115.png" },
+              { "name": "other technique", "description": "A move where the wrestler lifts the opponent and throws them backwards over their own head, slamming them into the mat.", "picture": "soup_116.png" }
+            ],
+            "technique_down": [
+              { "name": "Controle de la ceinture  par derrière", "picture": "ceinture.png", "description": "Ceinture de coté en pont" },
+              { "name": "Ceinture de double bras", "picture": "2bras.png", "description": "Ceinture se coté des deux bras " },
+              { "name": "Ceinture á rebours en arrachèe", "picture": "cote.png", "description": "Projection de l'adversaire sur controle de \n la ceinture á rebours" },
+              { "name": "Ceinture á rebour ", "picture": "cote1.png", "description": "Renversement de l'adversaire sur controle de \n la ceinture á rebour" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "cote2.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "cote3.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "rbour1.png" },
+              { "name": "Decalage arriere en ceinture", "description": "Pousser l’adversaire arriere en attaquant la ceinture \n apres controle des bras par dessus", "picture": "rebour2.png" },
+              { "name": "Renversement arrière", "picture": "bras_neck.png", "description": "Renversement en roulant arriere apes controle de l'adversaire \n bras-et cou" },
+              { "name": "Arrachée du sol", "picture": "arrache.png", "description": "Arrachée de l'adversaire du sol sur controle de la ceinture \n par arriére et grande Souplesse" },
+              { "name": "Arrachée du sol 2 apuis exterieurs", "picture": "arrache33.png", "description": "Arrachée de l'adversaire du sol sur controle de la ceinture \n par arriére et grande Souplesse" },
+              { "name": "Arrachée du sol et demi-Souplesse", "picture": "arrache2.png", "description": "Arrachée de l'adversaire du sol sur controle de la ceinture \n par arriére et demi- Souplesse" },
+              { "name": "Renversement 1", "picture": "1bras_dev.png", "description": "Renversement de l'adversaire après  controle d'un seule' \n bras par devant" },
+              { "name": "Renversement 2", "picture": "bras_dev2.png", "description": "Renversement de l'adversaire après  controle des deux \n bras par devant" },
+              { "name": "Renversement 3", "picture": "pass_dev2.png", "description": "Renversement de l'adversaire après ramassement d'un bras \n en fixant par la tete et  passage devant" },
+              { "name": "Renversement 4", "picture": "pass_dev.png", "description": "Renversement de l'adversaire après ramassement d'un bras \n et passage par devant" },
+              { "name": "Renversement 5", "picture": "renv.png", "description": "Renversement de l'adversaire après ramassement d'un \n bras et passage dessus" },
+              { "name": "Renversement 5", "picture": "arriere.png", "description": "Renversement de l'adversaire après ramassement d'un \n bras et passage dessus" },
+              { "name": "Renversement 5", "picture": "arriere2.png", "description": "Renversement de l'adversaire après ramassement d'un \n bras et passage dessus" }
+            ]
+          },
+          "Free Style": {
+            "main_controls": [
+              { "name": "free style m control1", "picture": "proj_1.png", "description": "" },
+              { "name": "free style m control2", "picture": "proj_2.png", "description": "this a description for free style m control2" },
+              { "name": "free style m control3", "picture": "proj_3.png", "description": "this a description for free style m control3" }
+            ],
+            "technique_up": [
+              { "name": "fr styl technique_up 1", "picture": "proj_4.png", "description": "this a description for free style technique_up 1" },
+              { "name": "fr styl technique_up 2", "picture": "proj_5.png", "description": "this a description for free style technique_up 2" },
+              { "name": "fr styl technique_up 3", "picture": "proj_6.png", "description": "this a description for free style technique_up 3" }
+            ],
+            "technique_down": [
+              { "name": "fr styl technique_down1", "picture": "proj_7.png", "description": "this is a description for free style technique_down 1" },
+              { "name": "fr styl technique_down2", "picture": "proj_8.png", "description": "this a description for free style technique_down 2" },
+              { "name": "fr styl technique_down3", "picture": "proj_9.png", "description": "this a description for free style technique_down 3" }
+            ]
+          }
+        };
+
+        // --- 3. STATE MANAGEMENT ---
+        let currentLang = 'en';
+        let currentView = 'intro-view';
+        let voteData = JSON.parse(localStorage.getItem('wrestlingVotes')) || {};
+
+        function saveVotes() {
+            localStorage.setItem('wrestlingVotes', JSON.stringify(voteData));
+        }
+
+        // --- 4. RENDERING LOGIC ---
+        let globalCardIdCounter = 0;
+
+        function createCard(technique, categoryName, prefix) {
+            const cardId = `${prefix}-${globalCardIdCounter++}`;
+            
+            if (!voteData[cardId]) {
+                voteData[cardId] = { likes: 0, dislikes: 0, userVote: null };
+            }
+            
+            const data = voteData[cardId];
+            const formattedName = technique.name.replace(/\b\w/g, c => c.toUpperCase());
+            const formattedDesc = technique.description || "No description provided.";
+            const imageName = technique.picture || "";
+
+            const imageHTML = imageName 
+                ? `<img src="${imageName}" alt="${formattedName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                   <span class="img-fallback">${imageName}</span>`
+                : `<span class="img-fallback" style="display:block;">No Image</span>`;
+
+            return `
+                <div class="card" data-id="${cardId}">
+                    <div class="card-image">
+                        ${imageHTML}
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${formattedName}</h3>
+                        <p class="card-desc">${formattedDesc}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="vote-btn like-btn ${data.userVote === 'like' ? 'active' : ''}" data-action="like">
+                            👍 <span class="vote-count">${data.likes}</span>
+                        </button>
+                        <button class="vote-btn dislike-btn ${data.userVote === 'dislike' ? 'active' : ''}" data-action="dislike">
+                            👎 <span class="vote-count">${data.dislikes}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCategory(categoryData, categoryKey, prefix) {
+            const t = translations[currentLang];
+            let catTitle = "";
+            
+            if (categoryKey === 'main_controls') catTitle = t.catMain;
+            else if (categoryKey === 'technique_up') catTitle = t.catUp;
+            else if (categoryKey === 'technique_down') catTitle = t.catDown;
+            else catTitle = categoryKey.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+            let html = `<div class="category-section">
+                            <h3 class="category-title">${catTitle}</h3>
+                            <div class="grid">`;
+            
+            categoryData.forEach(technique => {
+                html += createCard(technique, categoryKey, prefix);
+            });
+
+            html += `   </div>
+                        </div>`;
+            return html;
+        }
+
+        function renderGreco() {
+            const container = document.getElementById('greco-content');
+            const data = wrestlingData["Greco-Roman Style"];
+            let fullHTML = '';
+
+            for (const [categoryKey, techniques] of Object.entries(data)) {
+                fullHTML += renderCategory(techniques, categoryKey, 'greco');
+            }
+            container.innerHTML = fullHTML;
+        }
+
+        function renderFreestyle() {
+            const container = document.getElementById('freestyle-content');
+            const data = wrestlingData["Free Style"];
+            let fullHTML = '';
+
+            for (const [categoryKey, techniques] of Object.entries(data)) {
+                fullHTML += renderCategory(techniques, categoryKey, 'free');
+            }
+            container.innerHTML = fullHTML;
+        }
+
+        // --- 5. NAVIGATION & TRANSLATION LOGIC ---
+        function switchView(viewId) {
+            currentView = viewId;
+            
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (viewId === 'intro-view') document.getElementById('nav-intro').classList.add('active');
+            if (viewId === 'greco-view') document.getElementById('nav-greco').classList.add('active');
+            if (viewId === 'freestyle-view') document.getElementById('nav-freestyle').classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.documentElement.lang = lang;
+            document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+            // Update Navigation UI
+            document.getElementById('nav-intro').textContent = t.navHome;
+            document.getElementById('nav-greco').textContent = t.navGreco;
+            document.getElementById('nav-freestyle').textContent = t.navFree;
+
+            // Update Intro Page
+            document.getElementById('intro-title').textContent = t.introTitle;
+            document.getElementById('intro-text').textContent = t.introText;
+
+            // Update Page Headers
+            document.getElementById('greco-title').textContent = t.grecoTitle;
+            document.getElementById('greco-subtitle').textContent = t.grecoSubtitle;
+            document.getElementById('freestyle-title').textContent = t.freeTitle;
+            document.getElementById('freestyle-subtitle').textContent = t.freeSubtitle;
+
+            // Update Footer
+            document.getElementById('footer-contact-label').textContent = t.footerContact;
+            document.getElementById('footer-rights').textContent = t.footerRights;
+
+            // Re-render cards to update category titles
+            renderGreco();
+            renderFreestyle();
+        }
+
+        // --- 6. EVENT LISTENERS ---
+        document.body.addEventListener('click', function(e) {
+            const button = e.target.closest('.vote-btn');
+            if (!button) return;
+
+            const card = button.closest('.card');
+            const cardId = card.getAttribute('data-id');
+            const action = button.getAttribute('data-action');
+            
+            const cardData = voteData[cardId];
+            const likeBtn = card.querySelector('.like-btn');
+            const dislikeBtn = card.querySelector('.dislike-btn');
+            const likeCountSpan = likeBtn.querySelector('.vote-count');
+            const dislikeCountSpan = dislikeBtn.querySelector('.vote-count');
+
+            if (action === 'like') {
+                if (cardData.userVote === 'like') {
+                    cardData.likes--;
+                    cardData.userVote = null;
+                    likeBtn.classList.remove('active');
+                } else if (cardData.userVote === 'dislike') {
+                    cardData.dislikes--;
+                    cardData.likes++;
+                    cardData.userVote = 'like';
+                    dislikeBtn.classList.remove('active');
+                    likeBtn.classList.add('active');
+                } else {
+                    cardData.likes++;
+                    cardData.userVote = 'like';
+                    likeBtn.classList.add('active');
+                }
+            } 
+            else if (action === 'dislike') {
+                if (cardData.userVote === 'dislike') {
+                    cardData.dislikes--;
+                    cardData.userVote = null;
+                    dislikeBtn.classList.remove('active');
+                } else if (cardData.userVote === 'like') {
+                    cardData.likes--;
+                    cardData.dislikes++;
+                    cardData.userVote = 'dislike';
+                    likeBtn.classList.remove('active');
+                    dislikeBtn.classList.add('active');
+                } else {
+                    cardData.dislikes++;
+                    cardData.userVote = 'dislike';
+                    dislikeBtn.classList.add('active');
+                }
+            }
+
+            likeCountSpan.textContent = cardData.likes;
+            dislikeCountSpan.textContent = cardData.dislikes;
+            saveVotes();
+        });
+
+        // --- 7. INITIALIZATION ---
+        renderGreco();
+        renderFreestyle();
+        changeLanguage('en'); // Set default language and render everything
+
+    </script>
+</body>
+</html>
